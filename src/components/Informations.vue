@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-md-12 navigat">
         <div class="col-md-3">
-          <span>设备管理</span>
+          <span>消息管理</span>
           <span>>详情</span>
         </div>
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 mes">
-          <span>报警数量</span>
+          <span>信息详情</span>
         </div>
         <div class="col-md-12 main-xq">
           <div class="col-md-2"><p>设备所属公寓：</p></div>
@@ -17,37 +17,37 @@
             <input type="text" readonly="true"></div>
           <div class="col-md-2"><p>设备类型：</p></div>
           <div class="col-md-3">
-            <input type="text" readonly="true"></div>
+            <input type="text" readonly="true" v-model="list.deviceTypeName"></div>
         </div>
         <div class="col-md-12 main-xq">
           <div class="col-md-2"><p>设备所属房间：</p></div>
           <div class="col-md-3"><input type="text" readonly="true"></div>
           <div class="col-md-2"><p>设备名称：</p></div>
-          <div class="col-md-3"><input type="text" readonly="true"></div>
+          <div class="col-md-3"><input type="text" readonly="true" v-model="list.deviceName"></div>
         </div>
         <div class="col-md-12 main-xq">
           <div class="col-md-2"><p>运营商：</p></div>
-          <div class="col-md-3"><input type="text" readonly="true"></div>
+          <div class="col-md-3"><input type="text" readonly="true" placeholder="中国电信"></div>
           <div class="col-md-2"><p>设备型号：</p></div>
-          <div class="col-md-3"><input type="text" readonly="true"></div>
+          <div class="col-md-3"><input type="text" readonly="true" v-model="list.deviceModel"></div>
         </div>
         <div class="col-md-12 main-xq">
           <div class="col-md-2"><p>imel值：</p></div>
           <div class="col-md-3"><input type="text" readonly="true"></div>
           <div class="col-md-2"><p>预警类型：</p></div>
-          <div class="col-md-3"><input type="text" readonly="true"></div>
+          <div class="col-md-3"><input type="text" readonly="true" v-model="list.alarmContent"></div>
         </div>
         <div class="col-md-12 main-xq">
           <div class="col-md-2"><p>deviceID：</p></div>
-          <div class="col-md-3"><input type="text" readonly="true"></div>
+          <div class="col-md-3"><input type="text" readonly="true" v-model="list.deviceId"></div>
           <div class="col-md-2"><p>预警时间：</p></div>
-          <div class="col-md-3"><input type="text" placeholder="2018-01-12 15:00" readonly="true"></div>
+          <div class="col-md-3"><input type="text"readonly="true" v-model="list.alarmTime"></div>
         </div>
       </div>
       <div class="col-md-12">
         <div class="col-md-12">
           <div class="back">
-            <button>返回</button>
+            <button><router-link to="/alarm">返回</router-link></button>
           </div>
         </div>
       </div>
@@ -55,19 +55,42 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
   export default {
     name: "informations",
     data() {
       return {
-        menus: this.$store.state.menusModule.menus,
-        pageIndex:1,
         list:[],
+        id:'',
       };
     },
-
+    created() {
+      this.id=this.$route.params.id;
+      this.getData()
+    },
+    methods: {
+    getData: function () {
+      axios.get('https://xc.tcsmart.com.cn/api/web/device/alarm' + '?id=' + this.id, {
+        headers: {
+          'Authorization': 'Bearer' + ' ' + sessionStorage.getItem("Authorization")
+        }
+      })
+        .then(res => {
+          if (res.data.code === 0) {
+            this.list = res.data.data;
+          } else if (res.data.code === 3) {
+            this.$router.push({path: '/'})
+          }
+        })
+      },
+    }
   };
 </script>
 <style scoped>
+  a{
+    text-decoration: none;
+    color: #ffffff;
+  }
   .container{
     padding: 0;
     margin: 0;
@@ -131,13 +154,13 @@
     border-radius: 16px;
     font-family: "Microsoft YaHei";
     background: #ffffff;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 40px;
     margin-top: 40px;
     font-size: 16px;

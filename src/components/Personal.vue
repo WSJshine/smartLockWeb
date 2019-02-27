@@ -49,16 +49,34 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
   export default {
     name: "personal",
     data() {
       return {
-        menus: this.$store.state.menusModule.menus,
         userName:'',
         userMobile:'',
         userEmail:'',
       };
-    }
+    },
+    created:function () {
+      this.getDataa();
+    },
+    methods:{
+      getDataa(){
+        axios.get('https://xc.tcsmart.com.cn/api/web/home',{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })
+          .then(res=>{
+            console.log(res.data);
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      },
+    },
   };
 </script>
 <style scoped>
@@ -100,13 +118,13 @@
     height: 534px;
     margin-left: 115px;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     background: #ffffff;
   }
   .container .main .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 40px;
     margin-top: 40px;
     font-size: 14px;

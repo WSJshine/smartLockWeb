@@ -3,37 +3,25 @@
 </template>
 
 <script>
-  // let echarts = require('echarts/lib/echarts');
-  // // 引入柄状图组件
-  // require('echarts/lib/chart/line');
-  // // 引入提示框和title组件
-  // require('echarts/lib/component/tooltip');
-  // require('echarts/lib/component/title');
-  import axios from 'axios'
 export default {
   name: 'Lines',
+  props: [
+    //时间
+    'alarmDateList',
+    //报警数
+    'alarmNumberList'
+  ],
   data(){
     return{
       msg:100,
-      datas:[],
+      DateList:this.alarmDateList,
+      NumberList:this.alarmNumberList
     }
   },
   mounted(){
     this.drawLine();
   },
   methods: {
-    getData(){
-      axios.get('',{
-
-      })
-        .then(res=>{
-          if (res.data.code===200){
-            this.datas=res.data.data;
-          }else if(res.data.code===300){
-
-          }
-        })
-    },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById('mChart'));
@@ -57,7 +45,7 @@ export default {
           {
             type : 'category',
             boundaryGap : false,
-            data : ['2019-01-01','2019-01-02','2019-01-03','2019-01-04','2019-01-05','2019-01-06','2019-01-07'],
+            data :this.DateList
           }
         ],
         yAxis : [
@@ -67,11 +55,11 @@ export default {
         ],
         series : [
           {
-            name:'成交',
+            name:'报警数',
             type:'line',
             smooth:true,
             itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data:[5, 12, 8, 4, 6, 8, 2]
+            data:this.NumberList
           },
         ]
       });

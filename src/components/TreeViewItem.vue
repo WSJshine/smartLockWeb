@@ -77,6 +77,7 @@
   .link:hover, .button:hover {
     color: #ffac2a;
     cursor: pointer;
+    text-decoration: none;
   }
   .ll{
     position: relative;
@@ -90,9 +91,11 @@
     margin: auto;
     line-height: 50px;
     color: #ffffff;
+    text-decoration: none;
   }
   .lin{
     color: #ffac2a;
+    text-decoration: none;
   }
   .dianji{
     background: #ffffff;

@@ -40,7 +40,7 @@ export default new Router({
         {path:'/smartdevice',name:'smartdevice',component:SmartDevice},
         {path:'/product',name:'product',component:Product},
         {path:'/information',name:'information',component:Information},
-        {path:'/informations',name:'informations',component:Informations},
+        {path:'/informations/:id',name:'informations',component:Informations},
         {path:'/addfacility',name:'addfacility',component:Addfacility},
         {path:'/lock',name:'lock',component:Lock},
         {path:'/facilitys/:id',name:'facilitys',component:Facilitys},

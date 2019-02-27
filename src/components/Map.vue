@@ -24,12 +24,17 @@
 <script>
 export default {
   name: 'Map',
+  props: [
+    'latitude',
+    'longitude'
+  ],
   data(){
-    let vm=this;
     return{
       msg:'vue-amap demo',
+      longitude:this.longitude,
+      latitude:this.latitude,
       zoom:16,
-      center:[121.406051,31.179695],
+      center:[this.longitude,this.latitude],
       lng:0,
       lat:0,
       label:{
@@ -57,15 +62,15 @@ export default {
         {
           pName:'Geolocation',//定位插件
           showMarker:false,
-          events:{
-            init(o){
-              //定位成功 自动将marker和circle移到定位点
-              o.getCurrentPosition((status, result) => {
-                console.log(result);
-                vm.center=[result.position.lng,result.position.lat]
-              });
-            }
-          }
+          // events:{
+          //   init(o){
+          //     //定位成功 自动将marker和circle移到定位点
+          //     o.getCurrentPosition((status, result) => {
+          //       console.log(result);
+          //       vm.center=[result.position.lng,result.position.lat]
+          //     });
+          //   }
+          // }
         }
       ]
     }

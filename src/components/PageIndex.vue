@@ -61,7 +61,7 @@
         // 当前页面
         pageCurrent: 1,
         // 分页大小
-        pagesize: 12,
+        pagesize: 10,
         // 显示分页按钮数
         showPages: 5,
         // 开始显示的分页按钮
@@ -87,8 +87,6 @@
     },
     methods: {
       showPage (pageIndex, event, forceRefresh) {
-        // console.log(pageIndex)
-        // console.log(this.count)
         if (pageIndex>this.count){
           console.log("pageIndex",pageIndex);
         } else if (pageIndex<=0){
@@ -102,7 +100,6 @@
                 e.style.backgroundColor="";
               }
             }
-            // event.currentTarget.style.backgroundColor="gray";
           }
           if (pageIndex > 0) {
             this.$emit('indexclick', pageIndex);

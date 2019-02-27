@@ -59,7 +59,7 @@
       <div class="col-md-12">
         <div class="col-md-12">
           <div class="col-md-offset-3 col-md-4 back">
-            <div class="col-md-6 cancel"><button>取消</button></div>
+            <div class="col-md-6 cancel"><button @click="quxiao">取消</button></div>
             <div class="col-md-6"><button>提交</button></div>
           </div>
         </div>
@@ -80,7 +80,9 @@
       };
     },
     methods:{
-
+      quxiao(){
+        this.$router.push({path: '/smartdevice'})
+      }
     }
   };
 </script>

@@ -3,65 +3,138 @@
     <div class="row">
       <div class="col-md-12 navigat">
         <div class="col-md-3">
-          <span>设备管理</span>
+          <span>消息管理</span>
         </div>
-        <div class="col-md-offset-3 col-md-3 sousuo">
-          <input type="text">
-          <img src="../assets/icons/sousuo_content.png" height="32" width="32"/>
-        </div>
-        <div class="col-md-2 del">
-          <img src="../assets/icons/shanchu_content.png" height="32" width="32"/>
-          <span>删除智能设备</span>
-        </div>
+        <!--<div class="col-md-offset-3 col-md-3 sousuo">-->
+          <!--<input type="text">-->
+          <!--<img src="../assets/icons/sousuo_content.png" height="32" width="32"/>-->
+        <!--</div>-->
+        <!--<div class="col-md-2 del">-->
+          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32"/>-->
+          <!--<span>删除智能设备</span>-->
+        <!--</div>-->
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 bq">
           <ul class="list-inline">
             <li> <div class="hy-check hlyw-fg-pandect-l">
-              <input type="checkbox"/>
+              <input type="checkbox" v-model="selectAll" @change="checkAll(selectAll)"/>
               <label class="abs-cell"></label>
             </div></li>
             <li>序号</li>
             <li>信息类型</li>
             <li>状态</li>
-            <li>阅读时间</li>
+            <li>更新时间</li>
             <li>提交时间</li>
             <li>操作</li>
           </ul>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" v-for="(item,index) in list">
           <ul class="list-inline">
             <li> <div class="hy-check hlyw-fg-pandect-l">
-              <input type="checkbox"/>
+              <input type="checkbox"  v-model="item.checked" @change="checkOneBox(item)"/>
               <label class="abs-cell"></label>
             </div></li>
-            <li>01</li>
-            <li>设备预警</li>
-            <li>已读</li>
-            <li>2018-12-12 15:00</li>
-            <li>2018-12-12 13:00</li>
-            <li>详情</li>
+            <li>{{index+1}}</li>
+            <li>{{item.alarmDeviceTypeString}}</li>
+            <li>{{item.handleStatusString}}</li>
+            <li>{{item.updateTime}}</li>
+            <li>{{item.alarmTime}}</li>
+            <li><router-link :to="{ name:'informations',params:{ id:item.id}}">详情</router-link></li>
           </ul>
         </div>
       </div>
       <div class="col-md-12">
-        <page-index :currentIndex="1"  :count="pagesize" @indexclick="getIndex()" v-show="pagesize>1"></page-index>
+        <page-index :currentIndex="1"  :count="pagesize" @indexclick="getIndex" v-show="pagesize>1"></page-index>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import axios from 'axios'
   export default {
     name: "information",
     data() {
       return {
-        menus: this.$store.state.menusModule.menus,
         pageIndex:1,
+        pagesize:1,
+        list:[],
+        checkAllId:[],
+        checked:'',
+        selectAll:false,
+        alarmDeviceType:'',
+        handleStatus:'',
       };
+    },
+    created:function () {
+      this.getData();
+    },
+    mounted:function () {
+      this.list.forEach(item=>{
+        this.$set(item,'select',this.selectAll)
+      })
+    },
+    methods:{
+      checkAll(val) {
+        this.checkAllId=[];
+        this.list.forEach(item=>{
+          item.checked=val;
+        });
+        if (val){
+          this.list.forEach(item=>{
+            this.$data.checkAllId.push(item.id);
+          })
+        } else {
+          this.checkAllId=[];
+        }
+      },
+      checkOneBox(item) {
+        //判断是否全选
+        if (this.list.every(item=>item.checked===true)){
+          this.selectAll=true;
+        } else {
+          this.selectAll=false;
+        }
+        //如果被点击则存其id
+        if (item.checked){
+          this.checkAllId.push(item.id)
+        }else {
+          for (let i=0;i<this.checkAllId.length;i++){
+            if (this.checkAllId[i]===item.id){
+              this.checkAllId.splice(i,1)
+            }
+          }
+        }
+      },
+      getData(){
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/alarm/list'+'?pageNum='+this.pageIndex+'&alarmDeviceTypeString='+this.alarmDeviceType+'&handleStatusString='+this.handleStatus,{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })
+          .then(res=>{
+            if (res.data.code===3){
+              this.$router.push({path:'/'})
+            }else{
+              this.list = res.data.data.list;
+              this.pagesize=res.data.data.pageSum;
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      },
+      getIndex:function (i) {
+        this.pageIndex=i;
+        this.getData();
+      }
     }
   };
 </script>
 <style scoped>
+  a{
+    text-decoration: none;
+  }
   .container{
     padding: 0;
     margin: 0;
@@ -129,9 +202,9 @@
     font-family: "Microsoft YaHei";
     background: #ffffff;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .col-md-12,ul,li{
@@ -147,7 +220,7 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 250px;
+    width: 245px;
     text-align: center;
     overflow:hidden;
     text-overflow:ellipsis;

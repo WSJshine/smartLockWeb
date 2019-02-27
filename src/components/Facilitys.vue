@@ -150,9 +150,9 @@
       </div>
       <div class="col-md-12">
         <div class="col-md-12">
-          <div class="col-md-offset-3 col-md-4 back">
-            <div class="col-md-6 cancel"><button>取消</button></div>
-            <div class="col-md-6"><button>提交</button></div>
+          <div class="col-md-offset-4 col-md-4 back">
+            <div class="col-md-6 cancel"><button @click="quxiao">返回</button></div>
+            <!--<div class="col-md-6"><button @click="tijiao">提交</button></div>-->
           </div>
         </div>
       </div>
@@ -177,14 +177,36 @@
     },
     methods:{
       getData:function () {
-        axios.get('http://192.168.10.46:9000/api/web/device'+'?id='+this.id+'&sysUserId='+sessionStorage.getItem('sysUserId'))
+        axios.get('https://xc.tcsmart.com.cn/api/web/device'+'?id='+this.id,{
+          headers: {
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })
           .then(res=>{
-            console.log(res.data);
             if (res.data.code===0){
-              this.list=res.data.data.data;
+              this.list=res.data.data;
+            }
+            else if(res.data.code===3){
+              this.$router.push({path: '/'})
             }
           })
-      }
+      },
+      quxiao:function () {
+        this.$router.push({path:'/smartdevice'})
+      },
+      // tijiao:function () {
+      //   let updata={
+      //     device:this.list.deviceName
+      //   };
+      //   axios.put('http://192.168.10.24:9000/api/web/device',JSON.stringify(updata),{
+      //     headers: {
+      //       'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+      //     }
+      //   })
+      //     .then(res=>{
+      //       console.log(res.data)
+      //     })
+      // }
     }
   };
 </script>
@@ -243,16 +265,16 @@
     border-radius: 16px;
     font-family: "Microsoft YaHei";
     background: #ffffff;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .huos{
     margin-top: 30px;
   }
   .main-l .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-top: 60px;
     font-size: 16px;
     box-sizing: border-box;
@@ -314,8 +336,8 @@
     background: #ffffff;
     color: black;
     font-family: "Microsoft YaHei";
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
 </style>

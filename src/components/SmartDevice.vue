@@ -7,17 +7,21 @@
           <span>>智能设备管理</span>
         </div>
         <div class="col-md-offset-2 col-md-3 sousuo">
-          <input type="text" v-model="deviceName">
+          <input type="text" v-model="deviceName" placeholder="按设备名称查询">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
-        <div class="col-md-2 add">
-          <router-link to="/Addfacility"><img src="../assets/icons/tianjia_content.png" height="32" width="32"/>
-            <span>添加智能设备</span></router-link>
+        <div class="col-md-3 sousuo">
+          <input type="text" v-model="imei" placeholder="按imei值查询">
+          <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
-        <div class="col-md-2 del">
-          <img src="../assets/icons/shanchu_content.png" height="32" width="32"/>
-          <span>删除智能设备</span>
-        </div>
+        <!--<div class="col-md-2 add">-->
+          <!--<router-link to="/Addfacility"><img src="../assets/icons/tianjia_content.png" height="32" width="32"/>-->
+            <!--<span>添加智能设备</span></router-link>-->
+        <!--</div>-->
+        <!--<div class="col-md-2 del">-->
+          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32" @click="deleteall">-->
+          <!--<span @click="deleteall">删除智能设备</span>-->
+        <!--</div>-->
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 bq">
@@ -44,7 +48,7 @@
               <input type="checkbox" v-model="item.checked" @change="checkOneBox(item)">
               <label class="abs-cell"></label>
             </div></li>
-            <li>{{index}}</li>
+            <li>{{index+1}}</li>
             <li v-if="item.deviceType===0">智能门锁</li>
             <li v-else-if="item.deviceType===1">智能水表</li>
             <li>{{item.deviceName}}</li>
@@ -75,44 +79,43 @@
         pageIndex:1,
         pagesize:1,
         list:[],
-        checkedAllId:[],
+        checkAllId:[],
         checked:'',
         selectAll:false,
         deviceName:'',
+        imei:''
       };
     },
     creatted:function () {
       this.getData();
     },
     mounted:function () {
-      let _this=this;
       this.list.forEach(item=>{
-        _this.$set(item,'select',this.selectAll);
+        this.$set(item,'select',this.selectAll);
       });
     },
     methods: {
-      deleteOne:function(){
-        console.log(del);
-        axios.post('http://127.0.0.1:5000/delGoods/',del,{
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-          }
-        })
-          .then(res=>{
-            console.log(res.data);
-            if(res.data.code===200){
-            }
-          })
-      },
+      // deleteall:function(){
+      //   axios.delete('http://192.168.10.24:9000/api/web/device'+'?ids='+this.checkAllId,{
+      //     headers: {
+      //       'Content-Type': 'application/json;charset=utf-8',
+      //       'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+      //     }
+      //   })
+      //     .then(res=>{
+      //       console.log(res.data);
+      //       if(res.data.code===200){
+      //       }
+      //     })
+      // },
       checkAll (val) {
-        let _this=this;
         this.checkAllId = [];
         this.list.forEach(item => {
           item.checked = val;
         });
         if (val) {
           this.list.forEach(item => {
-            _this.$data.checkAllId.push(item.id);
+            this.$data.checkAllId.push(item.id);
           })
         } else {
           this.checkAllId = [];
@@ -120,7 +123,6 @@
       },
 // 单选 使用every遍历数组每一项，每一项返回true,则最终结果为true。当任何一项返回false时，停止遍历，返回false。不改变原数组
       checkOneBox (item) {
-        let _this=this;
         // 判断是否全选
         if (this.list.every(item=>item.checked===true)) {
           this.selectAll = true
@@ -129,8 +131,7 @@
         }
         // 如果被点击则存其id
         if (item.checked) {
-          _this.checkAllId.push(item.id);
-          console.log(this.checkAllId)
+          this.checkAllId.push(item.id);
         } else {
           // 删除数组里取消选择的id
           for (let i = 0; i < this.checkAllId.length; i++) {
@@ -141,12 +142,14 @@
         }
       },
       getData: function () {
-        let vm = this;
-        axios.get('http://192.168.10.46:9000/api/web/device/list'+'?pageNum='+this.pageIndex+'&sysUserId='+sessionStorage.getItem('sysUserId')+'&deviceName='+this.deviceName)//请求数据
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/list'+'?pageNum='+this.pageIndex+'&deviceName='+this.deviceName+'&imei='+this.imei,{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })//请求数据
           .then(res => {
-            console.log(res.data);
             if (res.data.code === 3) {
-              vm.$router.push({path: '/login'})
+              this.$router.push({path: '/'})
             } else if (res.data.code===0) {
               this.list = res.data.data.list;
               this.pagesize=res.data.data.pageSum;
@@ -208,6 +211,7 @@
     position: absolute;
     top: 30px;
     right: 15px;
+    z-index: 9999;
   }
   .navigat .add{
     margin-top: 30px;
@@ -237,9 +241,9 @@
     font-family: "Microsoft YaHei";
     background: #ffffff;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .col-md-12,ul,li{
@@ -251,7 +255,7 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 126px;
+    width: 123px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;

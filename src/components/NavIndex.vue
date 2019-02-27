@@ -40,17 +40,9 @@ export default {
   methods:{
     logOut(){
       alert("确认退出？");
-      axios.post('')
-        .then(res=>{
-          if (this.remeberFlag==="false"){
-            this.clearCookie();
-            sessionStorage.removeItem('sysUserId');
-          }
-          this.$router.push('/login');
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      sessionStorage.removeItem('sysUserId');
+      sessionStorage.removeItem('Authorization');
+      this.$router.push('/');
     },
     getCookie: function() {
       if (document.cookie.length > 0) {
@@ -90,6 +82,11 @@ export default {
     overflow: hidden;
     padding: 0;
     margin: 0;
+    background: url("../assets/nav.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
     background: -webkit-linear-gradient(left top, #4494ee , #8156fe); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(bottom right, #4494ee,#8156fe); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(bottom right, #4494ee, #8156fe); /* Firefox 3.6 - 15 */

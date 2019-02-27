@@ -10,14 +10,14 @@
           <input type="text" v-model="messag">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32"/>
         </div>
-        <div class="col-md-2 add">
-          <img src="../assets/icons/tianjia_content.png" height="32" width="32"/>
-          <span>添加智能设备</span>
-        </div>
-        <div class="col-md-2 del">
-          <img src="../assets/icons/shanchu_content.png" height="32" width="32"/>
-          <span @change="deleteOne">删除智能设备</span>
-        </div>
+        <!--<div class="col-md-2 add">-->
+          <!--<img src="../assets/icons/tianjia_content.png" height="32" width="32"/>-->
+          <!--<span>添加智能设备</span>-->
+        <!--</div>-->
+        <!--<div class="col-md-2 del">-->
+          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32"/>-->
+          <!--<span @change="deleteOne">删除智能设备</span>-->
+        <!--</div>-->
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 bq">
@@ -43,14 +43,14 @@
               <input type="checkbox" v-model="item.checked" @change="checkOneBox(item)"/>
               <label class="abs-cell"></label>
             </div></li>
-            <li>01{{}}</li>
-            <li>智能门锁{{}}</li>
-            <li>设备1{{}}</li>
-            <li>001{{}}</li>
-            <li>天诚{{}}</li>
-            <li>15564645656{{}}</li>
-            <li>1535433f8sfjfhsdbs84w6{{}}</li>
-            <li>20{{}}</li>
+            <li>{{index+1}}</li>
+            <li>{{item.deviceType}}</li>
+            <li>{{item.deviceName}}</li>
+            <li>{{item.deviceModel}}</li>
+            <li>{{item.manufacturerName}}</li>
+            <li>/</li>
+            <li>/</li>
+            <li>{{item.deviceCount}}</li>
             <li><router-link :to="{ name:'',params:{ id:item.id}}">详情</router-link></li>
           </ul>
         </div>
@@ -68,7 +68,7 @@
     data() {
       return {
         pageIndex:1,
-        pagesize:6,
+        pagesize:1,
         list:[],
         checked:'',
         checkAllId:[],
@@ -77,30 +77,32 @@
         messags:'',
       };
     },
+    creatted:function () {
+      this.getData();
+    },
     mounted:function () {
-      let _this=this;
       this.list.forEach(item=>{
-        _this.$set(item,'select',this.selectAll);
+        this.$set(item,'select',this.selectAll);
       });
     },
     methods:{
-      deleteOne:function(){
-        let delId={
-          "del_id":this.checkAllId,
-        };
-        axios.post('http://192.168.10.47:9000/api/web/sys/',JSON.stringify(delId),{
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'token':'',
-          }
-        })
-          .then(res=>{
-            console.log(res.data);
-            if(res.data.code===200){
-              this.message=res.data.message;
-            }
-          })
-      },
+      // deleteOne:function(){
+      //   let delId={
+      //     "del_id":this.checkAllId,
+      //   };
+      //   axios.post('http://192.168.10.38:9000/api/web/sys/',JSON.stringify(delId),{
+      //     headers: {
+      //       'Content-Type': 'application/json;charset=utf-8',
+      //       'token':'',
+      //     }
+      //   })
+      //     .then(res=>{
+      //       console.log(res.data);
+      //       if(res.data.code===200){
+      //         this.message=res.data.message;
+      //       }
+      //     })
+      // },
       checkAll (val) {
         this.checkAllId = [];
         this.list.forEach(item => {
@@ -135,14 +137,17 @@
         }
       },
       getData: function () {
-        axios.get('http://127.0.0.1:5000/catCart/'+'?page='+this.pageIndex+'&content='+this.messag)//请求数据
+        axios.get('https://xc.tcsmart.com.cn/api/web/product/list'+'?pageNum='+this.pageIndex+'&deviceName='+this.deviceName,{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })//请求数据
           .then(res => {
-            console.log(res);
-            console.log(res.data);
-            if (res.data.code === 305) {
-              this.$router.push({path: '/login'})
-            } else {
-              this.list = res.data.message;
+            if (res.data.code === 3) {
+              this.$router.push({path: '/'})
+            } else if (res.data.code===0) {
+              this.list = res.data.data.list;
+              this.pagesize=res.data.data.pageSum;
             }
           })
           .catch(function (error) {
@@ -151,6 +156,7 @@
       },
       getIndex:function (i) {
         this.pageIndex=i;
+        this.getData();
       },
     },
   };
@@ -222,9 +228,9 @@
     color: #333333;
     font-family: "Microsoft YaHei";
     background: #ffffff;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .col-md-12,ul,li{
@@ -240,7 +246,7 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 126px;
+    width: 123px;
     text-align: center;
     overflow:hidden;
     text-overflow:ellipsis;

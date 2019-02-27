@@ -4,12 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/index'
-import $ from 'jquery'
 import 'bootstrap3/dist/css/bootstrap.css'
 import 'bootstrap3/dist/js/bootstrap'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
+import 'babel-polyfill'
 import Qs from 'qs'
 //QS是axios库中带的，不需要我们再npm安装一个
 import VueAMap from "vue-amap";

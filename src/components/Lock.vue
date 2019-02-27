@@ -7,17 +7,21 @@
           <span>>智能门锁管理</span>
         </div>
         <div class="col-md-offset-2 col-md-3 sousuo">
-          <input type="text" v-model="list.deviceName">
+          <input type="text" v-model="deviceName" placeholder="按设备名称查询">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
-        <div class="col-md-2 add">
-          <img src="../assets/icons/tianjia_content.png" height="32" width="32"/>
-          <span>添加智能设备</span>
+        <div class="col-md-3 sousuo">
+          <input type="text" v-model="imei" placeholder="按imei值查询">
+          <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
-        <div class="col-md-2 del">
-          <img src="../assets/icons/shanchu_content.png" height="32" width="32"/>
-          <span >删除智能设备</span>
-        </div>
+        <!--<div class="col-md-2 add">-->
+          <!--<img src="../assets/icons/tianjia_content.png" height="32" width="32"/>-->
+          <!--<span>添加智能设备</span>-->
+        <!--</div>-->
+        <!--<div class="col-md-2 del">-->
+          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32"/>-->
+          <!--<span >删除智能设备</span>-->
+        <!--</div>-->
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 bq">
@@ -34,7 +38,7 @@
             <li>deviceID</li>
             <li>设备状态</li>
             <li>激活状态</li>
-            <li>公寓/房间号</li>
+            <!--<li>公寓/房间号</li>-->
             <li>操作</li>
           </ul>
         </div>
@@ -44,7 +48,7 @@
               <input type="checkbox" v-model="item.checked" @change="checkOneBox(item)"/>
               <label class="abs-cell"></label>
             </div></li>
-            <li>{{index}}</li>
+            <li>{{index+1}}</li>
             <li>智能门锁</li>
             <li>{{item.deviceName}}</li>
             <li v-if="item.deviceType===0">智能门锁</li>
@@ -54,7 +58,7 @@
             <li v-if="item.deviceStatus===0">正常</li>
             <li v-else style="color: red">报警</li>
             <li>已激活</li>
-            <li>/</li>
+            <!--<li>/</li>-->
             <li><router-link :to="{ name:'facilitys',params:{ id:item.id}}">详情</router-link></li>
           </ul>
         </div>
@@ -77,41 +81,40 @@
         checkAllId:[],
         checked:'',
         selectAll:false,
-        deviceName:''
+        deviceName:'',
+        imei:'',
       }
     },
     created:function () {
       this.getData();
     },
     mounted:function () {
-      let _this=this;
       this.list.forEach(item=>{
-        _this.$set(item,'select',this.selectAll);
+        this.$set(item,'select',this.selectAll);
       });
     },
     methods:{
-      deleteOne:function(){
-        console.log(del);
-        axios.delete('http://192.168.10.46:9000/api/web/device',del,{
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-          }
-        })
-          .then(res=>{
-            console.log(res.data);
-            if(res.data.code===200){
-            }
-          })
-      },
+      // deleteOne:function(){
+      //   console.log(del);
+      //   axios.delete('http://192.168.10.38:9000/api/web/device',del,{
+      //     headers: {
+      //       'Content-Type': 'application/json;charset=utf-8',
+      //     }
+      //   })
+      //     .then(res=>{
+      //       console.log(res.data);
+      //       if(res.data.code===200){
+      //       }
+      //     })
+      // },
       checkAll (val) {
-        let _this=this;
         this.checkAllId = [];
         this.list.forEach(item => {
           item.checked = val;
         });
         if (val) {
           this.list.forEach(item => {
-            _this.$data.checkAllId.push(item.id);
+            this.$data.checkAllId.push(item.id);
           })
         } else {
           this.checkAllId = [];
@@ -119,7 +122,6 @@
       },
 // 单选 使用every遍历数组每一项，每一项返回true,则最终结果为true。当任何一项返回false时，停止遍历，返回false。不改变原数组
       checkOneBox (item) {
-        let _this=this;
         // 判断是否全选
         if(this.list.every(item=>item.checked===true)) {
           this.selectAll = true
@@ -128,7 +130,7 @@
         }
         // 如果被点击则存其id
         if (item.checked) {
-          _this.checkAllId.push(item.id);
+          this.checkAllId.push(item.id);
         } else {
           // 删除数组里取消选择的id
           for (let i = 0; i < this.checkAllId.length; i++) {
@@ -139,12 +141,14 @@
         }
       },
       getData: function () {
-        let vm = this;
-        axios.get('http://192.168.10.46:9000/api/web/device/list'+'?pageNum='+this.pageIndex+'&sysUserId='+sessionStorage.getItem('sysUserId')+'&deviceName='+this.deviceName)//请求数据
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/list'+'?pageNum='+this.pageIndex+'&deviceName='+this.deviceName+'&imei='+this.imei,{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })//请求数据
           .then(res => {
-            console.log(res.data);
             if (res.data.code === 3) {
-              vm.$router.push({path: '/'})
+              this.$router.push({path: '/'})
             } else if (res.data.code===0) {
               this.list = res.data.data.list;
               this.pagesize=res.data.data.pageSum;
@@ -208,6 +212,7 @@
     position: absolute;
     top: 30px;
     right: -35px;
+    z-index: 9999;
   }
   .navigat .add{
     margin-top: 30px;
@@ -261,6 +266,9 @@
   .main-l li:last-child{
     width: 100px;
     color: #91a7ff;
+  }
+  .main-l li:nth-child(7){
+    width: 240px;
   }
   .main-l .bq li{
     font-family: "Microsoft YaHei";

@@ -16,7 +16,7 @@
                 <img src="../assets/icons/baojin_content.png" height="64" width="64"/></div>
               <div class="col-md-6 mes">
                 <div class="col-md-12"><span>告警总数</span></div>
-                <div class="col-md-12"><span>465</span></div>
+                <div class="col-md-12"><span>{{alarmTotalNumber}}</span></div>
               </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <img src="../assets/icons/shebeishuliang_content.png" height="64" width="64"/></div>
               <div class="col-md-6 mes">
                 <div class="col-md-12"><span>设备数量</span></div>
-                <div class="col-md-12"><span>10450</span></div>
+                <div class="col-md-12"><span>{{deviceNumber}}</span></div>
               </div>
             </div>
         </div>
@@ -63,11 +63,11 @@
             </div>
           </div>
           <div class="col-md-12">
-            <Lines></Lines>
+            <Lines v-if="flag" :alarmDateList="alarmDateList" :alarmNumberList="alarmNumberList"></Lines>
           </div>
         </div>
         <div class="col-md-6 lines-1">
-            <Map></Map>
+            <Map v-if="flag" :latitude="latitude" :longitude="longitude"></Map>
         </div>
       </div>
       <div class="col-md-12 main-br">
@@ -86,41 +86,17 @@
             </div>
             <div class="col-md-offset-1 col-md-10 message">
               <ul class="list-inline" v-for="(item,index) in list">
-                <li>设备一{{}}</li>
-                <li>假锁{{}}</li>
-                <li>大门{{}}</li>
-                <li>2019-01-07{{}}</li>
-              </ul>
-              <ul class="list-inline">
-                <li>设备二</li>
-                <li>假锁</li>
-                <li>大门</li>
-                <li>2019-01-06</li>
-              </ul>
-              <ul class="list-inline">
-                <li>设备三</li>
-                <li>假锁</li>
-                <li>大门</li>
-                <li>2019-01-06</li>
-              </ul>
-              <ul class="list-inline">
-                <li>设备四</li>
-                <li>假锁</li>
-                <li>大门</li>
-                <li>2019-01-06</li>
-              </ul>
-              <ul class="list-inline">
-                <li>设备五</li>
-                <li>防撬</li>
-                <li>大门</li>
-                <li>2019-01-05</li>
+                <li>{{item.deviceName}}</li>
+                <li>{{item.alarmType}}</li>
+                <li>/</li>
+                <li>{{item.alarmDateTime}}</li>
               </ul>
             </div>
           </div>
         </div>
         <div class="col-md-3 fault">
           <div class="col-md-12 mes">
-            <span>报警数量</span>
+            <span>故障数量</span>
           </div>
           <div class="col-md-12 pie">
             <Pie></Pie>
@@ -139,6 +115,7 @@
   </div>
 </template>
 <script>
+  import  axios from 'axios'
 import Map from '@/components/Map'
 import Pie from '@/components/Pie'
 import Pies from '@/components/Pies'
@@ -155,23 +132,56 @@ import Smarts from '@/components/Smarts'
     },
     data() {
       return {
-        currentRoute: this.$route.path,
+        flag:false,
         list:[],
-
+        alarmTotalNumber:'',
+        deviceNumber:'',
+        latitude:31.254154,
+        longitude:120.735392,
+        alarmDateList:['2009-02-20','2009-02-21','2009-02-22','2009-02-23','2009-02-24','2009-02-25','2009-02-26'],
+        alarmNumberList:[150,15,151,65,45,84,95],
       };
     },
-    watch: {
-      //监听路由，只要路由有变化(路径，参数等变化)都有执行下面的函数
-      $route: {
-        handler: function(val, oldVal) {
-          this.currentRoute = val.name;
-        },
-        deep: true
-      }
+    created:function () {
+      this.getData();
     },
+    methods:{
+      getData:function () {
+        axios.get('https://xc.tcsmart.com.cn/api/web/home',{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })//请求数据
+          .then(res => {
+            if (res.data.code === 3) {
+              this.$router.push({path: '/'})
+            } else {
+              this.list = res.data.data.unHandledAlarmList;
+              this.alarmTotalNumber = res.data.data.alarmTotalNumber;
+              this.deviceNumber = res.data.data.deviceNumber;
+              this.latitude = res.data.data.latitude;
+              this.longitude = res.data.data.longitude;
+              this.alarmDateList = res.data.data.alarmDateList;
+              this.alarmNumberList = res.data.data.alarmNumberList;
+              this.flag=true;
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
+    }
   };
 </script>
 <style scoped>
+  li{
+    width: 126px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+  }
   .container{
     margin: 0;
     padding: 0;
@@ -224,48 +234,67 @@ import Smarts from '@/components/Smarts'
     color: #91a7ff;
     font-weight: bold;
   }
+  .main-t{
+    width: 1575px;
+  }
   .main-t .equipment-sum{
-    width: 330px;
+    width: 93%;
     height: 146px;
     background: #ffffff;
     border-radius: 16px;
     margin-left: 45px;
     background-image: url("../assets/bg_1.png");
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-t .equipment-sum-1{
-    width: 330px;
+    width: 93%;
     height: 146px;
     background: #ffffff;
     border-radius: 16px;
     margin-left: 30px;
     background-image: url("../assets/bg_2.png");
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-t .equipment-sum-2{
-    width: 330px;
+    width: 93%;
     height: 146px;
     background: #ffffff;
     border-radius: 16px;
     margin-left: 15px;
     background-image: url("../assets/bg_3.png");
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-t .equipment-sum-3{
-    width: 330px;
+    width: 93%;
     height: 146px;
     background: #ffffff;
     border-radius: 16px;
     background-image: url("../assets/bg_4.png");
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-t .mes{
     margin-left: 4px;
@@ -287,12 +316,12 @@ import Smarts from '@/components/Smarts'
     background: #ffffff;
     border-radius: 16px;
     box-sizing: border-box;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-b .lines .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 20px;
     margin-top: 20px;
     font-size: 14px;
@@ -322,9 +351,9 @@ import Smarts from '@/components/Smarts'
     background: #ffffff;
     border-radius: 16px;
     box-sizing: border-box;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-br .undisposed{
     width: 700px;
@@ -335,12 +364,12 @@ import Smarts from '@/components/Smarts'
     background: #ffffff;
     border-radius: 16px;
     box-sizing: border-box;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
   }
   .main-br .undisposed .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 20px;
     margin-top: 20px;
     font-size: 14px;
@@ -390,13 +419,13 @@ import Smarts from '@/components/Smarts'
     margin-top: 30px;
     background: #ffffff;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 40px;
   }
   .main-br .fault .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 20px;
     margin-top: 20px;
     font-size: 14px;
@@ -415,13 +444,13 @@ import Smarts from '@/components/Smarts'
     margin-top: 30px;
     background: #ffffff;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 38px;
   }
   .main-br .faults .mes{
-    border-left: solid 2px #345DFF;
+    border-left: solid 2px #9daff3;
     margin-left: 20px;
     margin-top: 20px;
     font-size: 14px;
@@ -434,5 +463,4 @@ import Smarts from '@/components/Smarts'
     margin-top: -10px;
     margin-left: -29px;
   }
-
 </style>

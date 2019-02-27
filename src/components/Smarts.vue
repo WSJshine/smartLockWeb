@@ -56,8 +56,6 @@
     margin: 0;
     width: 1400px;
     position: fixed;
-    /*margin-left: 300px;*/
-    /*margin-top: 150px;*/
     border-radius: 16px;
     background: #ffffff;
     -webkit-box-shadow:0 0 10px #345DFF;

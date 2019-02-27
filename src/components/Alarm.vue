@@ -6,6 +6,18 @@
           <span>设备管理</span>
           <span>>设备报警</span>
         </div>
+        <div class="col-md-offset-2 col-md-3 sousuo">
+          <select class="form-control" v-model="alarmDeviceType" @change="getData">
+            <option v-for="(item,index) in alarm">{{alarm[index]}}</option>
+          </select>
+          <!--<img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>-->
+        </div>
+        <div class="col-md-3 sousuo">
+          <select class="form-control" v-model="handleStatus" @change="getData">
+            <option v-for="(item,index) in handle">{{handle[index]}}</option>
+          </select>
+          <!--<img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>-->
+        </div>
       </div>
       <div class="col-md-10 main-l">
         <div class="col-md-12 bq">
@@ -31,15 +43,15 @@
               <input type="checkbox" v-model="item.checked" @change="checkOneBox(item)"/>
               <label class="abs-cell"></label>
             </div></li>
-            <li>01</li>
-            <li>智能门锁</li>
-            <li>设备1</li>
-            <li>001</li>
-            <li>假锁</li>
-            <li>已处理</li>
-            <li>1/502</li>
-            <li>2018-01-12</li>
-            <li>详情</li>
+            <li>{{index+1}}</li>
+            <li>{{item.alarmDeviceTypeString}}</li>
+            <li>{{item.deviceName}}</li>
+            <li>{{item.deviceModel}}</li>
+            <li>{{item.alarmContent}}</li>
+            <li>{{item.handleStatusString}}</li>
+            <li>/</li>
+            <li>{{item.alarmTime}}</li>
+            <li><router-link :to="{ name:'informations',params:{ id:item.id}}">详情</router-link></li>
           </ul>
         </div>
       </div>
@@ -56,36 +68,28 @@
     data() {
       return {
         pageIndex:1,
-        pagesize:5,
+        pagesize:1,
         list:[],
-        checkedId:[],
+        checkAllId:[],
         checked:'',
         selectAll:false,
+        alarmDeviceType:'',
+        handleStatus:'',
+        alarm:[],
+        handle:[]
       };
     },
     created:function () {
-
+      this.getData();
+      this.getAlarmtype();
+      this.getHandle();
     },
     mounted:function () {
-      let _this=this;
       this.list.forEach(item=>{
-        _this.$set(item,'select',this.selectAll)
+        this.$set(item,'select',this.selectAll)
       })
     },
     methods:{
-      deleteData:function () {
-        let del={};
-        axios.post('',JSON.stringify(del),{
-          headers:{
-            'Content-Type':'application/json;charset=utf-8',
-          }
-        })
-          .then(res=>{
-            if (res.data.code===200){
-
-            }
-          })
-      },
       checkAll(val) {
         this.checkAllId=[];
         this.list.forEach(item=>{
@@ -118,26 +122,65 @@
         }
       },
       getData(){
-        axios.get('http://192.168.10.47:9000/api/web/sys')
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/alarm/list'+'?pageNum='+this.pageIndex+'&alarmDeviceTypeString='+this.alarmDeviceType+'&handleStatusString='+this.handleStatus,{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })
           .then(res=>{
-            console.log(res.data);
-            if (res.data.code===305){
-              this.$router.push({path:'/login'})
+            if (res.data.code===3){
+              this.$router.push({path:'/'})
             }else{
-              this.list=res.data
+              this.list = res.data.data.list;
+              this.pagesize=res.data.data.pageSum;
             }
           })
           .catch(function (error) {
             console.log(error)
           })
       },
+      getAlarmtype:function(){
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/alarm/deviceAlarmType',{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+          })
+          .then(res=>{
+            if (res.data.code===3){
+              this.$router.push({path:'/'})
+            } else{
+              this.alarm=res.data.data;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getHandle:function(){
+        axios.get('https://xc.tcsmart.com.cn/api/web/device/alarm/handleStatus',{
+          headers:{
+            'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
+          }
+        })
+          .then(res=>{
+            if (res.data.code===3){
+              this.$router.push({path:'/'})
+            } else{
+              this.handle=res.data.data;
+            }
+          })
+      },
       getIndex:function (i) {
         this.pageIndex=i;
+        this.getData();
       }
     }
   };
 </script>
 <style scoped>
+  a{
+    text-decoration: none;
+  }
   .container{
     padding: 0;
     margin: 0;
@@ -162,20 +205,14 @@
     color: #91a7ff;
     font-weight: bold;
   }
-  .navigat .sousuo input{
-    width: 100%;
-    height: 32px;
+  .navigat .sousuo{
     margin-top: 30px;
-    margin-left: 50px;
-    border-radius: 25px;
-    border: solid 1px rgba(77, 77, 77, 0.68);
-    background: #f2f2f2;
-    outline: none;
   }
   .navigat .sousuo img{
     position: absolute;
     top: 30px;
-    right: -35px;
+    right: 15px;
+    z-index: 9999;
   }
   .navigat .add{
     margin-top: 30px;
@@ -201,9 +238,9 @@
     color: #333333;
     font-family: "Microsoft YaHei";
     background: #ffffff;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .col-md-12,ul,li{
@@ -219,10 +256,12 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 126px;
+    width: 123px;
     text-align: center;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
   }
   .main-l li:first-child{
     width: 90px;

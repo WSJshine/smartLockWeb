@@ -77,14 +77,12 @@ export default {
          "userName":this.username,
          "password":this.password
        };
-       console.log(dd);
-       axios.post('http://192.168.10.46:9000/api/web/sys/user/login/',JSON.stringify(dd),{
+       axios.post('https://xc.tcsmart.com.cn/api/web/sys/user/login/',JSON.stringify(dd),{
          headers: {
            'Content-Type': 'application/json;charset=utf-8',
          }
        })
          .then(res => {
-           console.log(res.data);
            if (res.data.code === 0) {
              let remeberFlag;
              //判断复选框是否被勾选
@@ -96,7 +94,7 @@ export default {
              //调用配置cookie方法,传入账号名，密码，和保存天数3个参数
              this.setCookie(this.username, this.password, 7, remeberFlag);
              this.$router.push({path: '/home'});
-             sessionStorage.setItem('sysUserId',res.data.data)
+             sessionStorage.setItem('Authorization',res.data.data)
            } else {
              this.message=res.data.message
            }
