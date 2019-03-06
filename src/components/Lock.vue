@@ -2,16 +2,16 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 navigat">
-        <div class="col-md-3">
+        <div class="col-md-5">
           <span>设备管理</span>
           <span>>智能门锁管理</span>
         </div>
-        <div class="col-md-offset-2 col-md-3 sousuo">
-          <input type="text" v-model="deviceName" placeholder="按设备名称查询">
+        <div class="col-md-3 sousuo">
+          <input type="text" v-model.trim="deviceName" placeholder="按设备名称查询" @keyup.enter.native="getData">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
         <div class="col-md-3 sousuo">
-          <input type="text" v-model="imei" placeholder="按imei值查询">
+          <input type="text" v-model.trim="imei" placeholder="按imei值查询" @keyup.enter.native="getData">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
         </div>
         <!--<div class="col-md-2 add">-->
@@ -174,7 +174,7 @@
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -239,9 +239,9 @@
     font-family: "Microsoft YaHei";
     background: #ffffff;
     border-radius: 16px;
-    -webkit-box-shadow:0 0 10px #345DFF;
-    -moz-box-shadow:0 0 10px #345DFF;
-    box-shadow:0 0 10px #345DFF;
+    -webkit-box-shadow:0 0 10px #9daff3;
+    -moz-box-shadow:0 0 10px #9daff3;
+    box-shadow:0 0 10px #9daff3;
     margin-left: 100px;
   }
   .main-l .col-md-12,ul,li{
@@ -253,7 +253,7 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 126px;
+    width: 9%;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -261,14 +261,18 @@
     text-decoration: none;
   }
   .main-l li:first-child{
-    width: 90px;
+    width: 6.5%;
   }
   .main-l li:last-child{
-    width: 100px;
+    width: 7.3%;
     color: #91a7ff;
+    text-decoration: none;
   }
   .main-l li:nth-child(7){
-    width: 240px;
+    width: 15%;
+  }
+  .main-l li:nth-child(6){
+    width: 11%;
   }
   .main-l .bq li{
     font-family: "Microsoft YaHei";

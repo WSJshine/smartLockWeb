@@ -4,7 +4,7 @@
       <div class="col-md-12 navigat">
         <div class="col-md-4">
           <span>设备管理</span>
-          <span>>智能设备管理>设备详情</span>
+          <span>>智能门锁管理>门锁详情</span>
         </div>
       </div>
       <div class="col-md-10 main-l">
@@ -132,8 +132,8 @@
              <div class="col-md-9">
                <select class="form-control">
                  <option></option>
-                 <option>电信</option>
-                 <option>移动</option>
+                 <option></option>
+                 <option></option>
                </select>
              </div>
            </div>
@@ -211,10 +211,13 @@
   };
 </script>
 <style scoped>
+  span{
+    text-overflow: ellipsis;
+  }
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -285,7 +288,7 @@
     margin-left: 40px;
   }
   .main-l .main-xq .form-control{
-    width: 256px;
+    width: 100%;
     height: 40px;
     outline: none;
     border: solid 1px #a8a8a8;
@@ -299,9 +302,9 @@
   .main-l .housing:nth-child(2){
     margin-left: 0;
   }
-  .main-l .housing .tab{
-    width: 462px;
-  }
+  /*.main-l .housing .tab{*/
+    /*width: 462px;*/
+  /*}*/
   .main-l .main-x{
     margin-left: 15px;
     margin-top: 40px;
@@ -320,7 +323,7 @@
     padding: 0;
   }
   .back button{
-    width: 142px;
+    width: 60%;
     height: 50px;
     border: none;
     outline: none;

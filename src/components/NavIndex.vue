@@ -8,11 +8,11 @@
         </div>
         <div class="col-md-offset-5 col-md-4 nav-r">
           <div class="col-md-offset-4 col-md-2 messa">
-            <img src="../assets/icons/information_leftnav.png" height="40" width="40"/>
+            <router-link to="/information"><img src="../assets/icons/information_leftnav.png" height="40" width="40"/></router-link>
           </div>
           <div class="col-md-3 user">
-            <img src="../assets/icons/portrait_nav.png" height="48" width="48"/>
-            <span>{{username}}</span>
+            <router-link to="/personal"><img src="../assets/icons/portrait_nav.png" height="48" width="48"/></router-link>
+            <router-link to="/personal"><span>{{username}}</span></router-link>
           </div>
           <div class="col-md-3 exit">
             <img src="../assets/icons/land_nav.png" height="48" width="48"/>
@@ -76,6 +76,10 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  a{
+    text-decoration: none;
+    color: #ffffff;
+  }
   .container{
     width: 100%;
     height: 96px;
@@ -124,4 +128,12 @@ export default {
     line-height: 90px;
     margin-left: 8px;
   }
+  /*.user{*/
+    /*width: 25%;*/
+    /*text-overflow: ellipsis;*/
+  /*}*/
+  /*.exit{*/
+    /*width: 25%;*/
+    /*text-overflow: ellipsis;*/
+  /*}*/
 </style>

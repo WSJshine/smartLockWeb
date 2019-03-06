@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 navigat">
-        <div class="col-md-3">
+        <div class="col-md-5">
           <span>消息管理</span>
         </div>
         <!--<div class="col-md-offset-3 col-md-3 sousuo">-->
@@ -138,7 +138,7 @@
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -220,19 +220,19 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 245px;
+    width: 17.8%;
     text-align: center;
     overflow:hidden;
     text-overflow:ellipsis;
   }
   .main-l li:first-child{
-    width: 90px;
+    width: 6.5%;
   }
   .main-l li:nth-child(2){
-    width: 126px;
+    width: 9%;
   }
   .main-l li:last-child{
-    width: 100px;
+    width: 7.3%;
     color: #91a7ff;
     border: none;
   }

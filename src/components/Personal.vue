@@ -83,7 +83,7 @@
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -114,7 +114,7 @@
     font-size: 14px;
   }
   .container .main{
-    width: 1337px;
+    width: 85%;
     height: 534px;
     margin-left: 115px;
     border-radius: 16px;

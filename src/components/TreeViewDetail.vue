@@ -234,9 +234,6 @@ import Smarts from '@/components/Smarts'
     color: #91a7ff;
     font-weight: bold;
   }
-  .main-t{
-    width: 1575px;
-  }
   .main-t .equipment-sum{
     width: 93%;
     height: 146px;
@@ -309,7 +306,8 @@ import Smarts from '@/components/Smarts'
     margin-top: 41px;
   }
   .main-b .lines{
-    width: 700px;
+    width: 45.3%;
+    /*width: 700px;*/
     height: 320px;
     margin-left: 60px;
     margin-top: 34px;
@@ -319,6 +317,7 @@ import Smarts from '@/components/Smarts'
     -webkit-box-shadow:0 0 10px #9daff3;
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
+    overflow: hidden;
   }
   .main-b .lines .mes{
     border-left: solid 2px #9daff3;
@@ -344,7 +343,8 @@ import Smarts from '@/components/Smarts'
     margin-left: 5px;
   }
   .main-b .lines-1{
-    width: 700px;
+    /*width: 700px;*/
+    width: 45.3%;
     height: 320px;
     margin-left: 40px;
     margin-top: 34px;
@@ -354,9 +354,11 @@ import Smarts from '@/components/Smarts'
     -webkit-box-shadow:0 0 10px #9daff3;
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
+    overflow: hidden;
   }
   .main-br .undisposed{
-    width: 700px;
+    /*width: 700px;*/
+    width: 45.3%;
     height: 320px;
     margin-left: 60px;
     margin-top: 34px;
@@ -367,6 +369,7 @@ import Smarts from '@/components/Smarts'
     -webkit-box-shadow:0 0 10px #9daff3;
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
+    overflow: hidden;
   }
   .main-br .undisposed .mes{
     border-left: solid 2px #9daff3;
@@ -390,6 +393,7 @@ import Smarts from '@/components/Smarts'
     font-family: "Microsoft YaHei";
     font-size: 12px;
     color: #999999;
+    overflow: hidden;
   }
   .main-br .undisposed .messag li:first-child{
     margin-left: 0px;
@@ -412,9 +416,11 @@ import Smarts from '@/components/Smarts'
     font-family: "Microsoft YaHei";
     font-size: 13px;
     color: #333333;
+    overflow: hidden;
   }
   .main-br .fault{
-    width: 316px;
+    /*width: 316px;*/
+    width: 20.5%;
     height: 320px;
     margin-top: 30px;
     background: #ffffff;
@@ -423,6 +429,7 @@ import Smarts from '@/components/Smarts'
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
     margin-left: 40px;
+    overflow: hidden;
   }
   .main-br .fault .mes{
     border-left: solid 2px #9daff3;
@@ -433,13 +440,15 @@ import Smarts from '@/components/Smarts'
     font-weight: bold;
   }
   .main-br .fault .pie{
-    width: 300px;
+    /*width: 300px;*/
+    width: 100%;
     height: 280px;
     margin-top: 18px;
     margin-left: -29px;
   }
   .main-br .faults{
-    width: 345px;
+    /*width: 345px;*/
+    width: 22.3%;
     height: 320px;
     margin-top: 30px;
     background: #ffffff;
@@ -448,6 +457,7 @@ import Smarts from '@/components/Smarts'
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
     margin-left: 38px;
+    overflow: hidden;
   }
   .main-br .faults .mes{
     border-left: solid 2px #9daff3;
@@ -458,7 +468,8 @@ import Smarts from '@/components/Smarts'
     font-weight: bold;
   }
   .main-br .faults .pies{
-    width: 330px;
+    /*width: 330px;*/
+    width: 100%;
     height: 300px;
     margin-top: -10px;
     margin-left: -29px;

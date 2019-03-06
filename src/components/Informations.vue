@@ -94,7 +94,7 @@
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -168,7 +168,7 @@
     font-weight: bold;
   }
   .main-l .main-xq input{
-    width: 256px;
+    width: 89%;
     height: 40px;
     outline: none;
     border: solid 1px #a8a8a8;
@@ -190,7 +190,7 @@
     padding: 0;
   }
   .back button{
-    width: 142px;
+    width: 10%;
     height: 50px;
     border: none;
     outline: none;

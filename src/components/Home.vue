@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div style=""><Tree-view></Tree-view></div>
-      <div style="position: absolute;right:0;overflow: hidden;overflow-x: auto;width: 82%;"><router-view/></div>
+      <div style="position: absolute;right:0;left: 343px;overflow: hidden;overflow-x: auto;width: 82%;"><router-view/></div>
     </div>
 </template>
 <script>

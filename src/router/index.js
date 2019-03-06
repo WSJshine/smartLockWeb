@@ -14,6 +14,9 @@ import Lock from '@/components/Lock'
 import Facilitys from '@/components/Facilitys'
 import Alarm from '@/components/Alarm'
 import Smarts from '@/components/Smarts'
+import Yangan from '@/components/Yangan'
+import Shuibiao from '@/components/Shuibiao'
+import Dianbiao from '@/components/Dianbiao'
 
 Vue.use(Router);
 
@@ -46,6 +49,9 @@ export default new Router({
         {path:'/facilitys/:id',name:'facilitys',component:Facilitys},
         {path:'/alarm',name:'slarm',component:Alarm},
         {path:'/smarts',name:'smarts',component:Smarts},
+        {path:'/yangan',name:'yangan',component:Yangan},
+        {path:'/shuibiao',name:'shuibiao',component:Shuibiao},
+        {path:'/dianbiao',name:'dianbiao',component:Dianbiao},
       ]
     },
   ],

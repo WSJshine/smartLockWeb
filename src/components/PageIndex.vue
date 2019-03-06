@@ -147,7 +147,7 @@
     color: white;
     margin-top: 5px;
     line-height: 18px;
-    padding-left: 6px;
+    padding-left: 2px;
   }
   .container{
     width: 100%;

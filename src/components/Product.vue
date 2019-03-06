@@ -2,11 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 navigat">
-        <div class="col-md-3">
+        <div class="col-md-5">
           <span>设备管理</span>
           <span>>产品管理</span>
         </div>
-        <div class="col-md-offset-2 col-md-3 sousuo">
+        <div class="col-md-3 sousuo">
           <input type="text" v-model="messag">
           <img src="../assets/icons/sousuo_content.png" height="32" width="32"/>
         </div>
@@ -165,7 +165,7 @@
   .container{
     padding: 0;
     margin: 0;
-    width: 1558px;
+    width: 100%;
     float: right;
   }
   .navigat{
@@ -228,6 +228,7 @@
     color: #333333;
     font-family: "Microsoft YaHei";
     background: #ffffff;
+    border-radius: 16px;
     -webkit-box-shadow:0 0 10px #9daff3;
     -moz-box-shadow:0 0 10px #9daff3;
     box-shadow:0 0 10px #9daff3;
@@ -246,22 +247,22 @@
     line-height: 60px;
   }
   .main-l li{
-    width: 123px;
+    width: 8.9%;
     text-align: center;
     overflow:hidden;
     text-overflow:ellipsis;
   }
   .main-l li:first-child{
-    width: 90px;
+    width: 6.5%;
   }
   .main-l li:nth-child(7){
-    width: 156px;
+    width: 11.1%;
   }
   .main-l li:nth-child(8){
-    width: 220px;
+    width: 16%;
   }
   .main-l li:last-child{
-    width: 100px;
+    width: 7.3%;
     color: #91a7ff;
     border: none;
   }

@@ -148,12 +148,14 @@ export default {
     width: 100%;
     height: 100%;
     z-index: auto;
+    padding-top: 89%;
     position:absolute;
     left:0;
     top:0;
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
+    background-size: cover;
   }
   .login{
     margin: 0;
@@ -186,7 +188,7 @@ export default {
     font-family:"Microsoft YaHei" ;
   }
   .use-l{
-    width: 400px;
+    width: 72%;
     height: 58px;
     /*background: red;*/
     margin-left: 90px;
@@ -205,7 +207,7 @@ export default {
   .use-l .denglu input{
     outline: none;
     border: none;
-    width: 302px;
+    width: 82%;
     height: 40px;
     border-left: 1px solid #3746a6;
     padding-left: 18px;

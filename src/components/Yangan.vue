@@ -4,76 +4,75 @@
       <div class="col-md-12 navigat">
         <div class="col-md-5">
           <span>设备管理</span>
-          <span>>智能设备管理</span>
+          <span>>智能烟感管理</span>
         </div>
-        <div class="col-md-3 sousuo">
-          <input type="text" v-model="deviceName" placeholder="按设备名称查询">
-          <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
-        </div>
-        <div class="col-md-3 sousuo">
-          <input type="text" v-model="imei" placeholder="按imei值查询">
-          <img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>
-        </div>
+        <!--<div class="col-md-3 sousuo">-->
+          <!--<input type="text" v-model="deviceName" placeholder="按设备名称查询">-->
+          <!--<img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>-->
+        <!--</div>-->
+        <!--<div class="col-md-3 sousuo">-->
+          <!--<input type="text" v-model="imei" placeholder="按imei值查询">-->
+          <!--<img src="../assets/icons/sousuo_content.png" height="32" width="32" @click="getData"/>-->
+        <!--</div>-->
         <!--<div class="col-md-2 add">-->
-          <!--<router-link to="/Addfacility"><img src="../assets/icons/tianjia_content.png" height="32" width="32"/>-->
-            <!--<span>添加智能设备</span></router-link>-->
+          <!--<img src="../assets/icons/tianjia_content.png" height="32" width="32"/>-->
+          <!--<span>添加智能设备</span>-->
         <!--</div>-->
         <!--<div class="col-md-2 del">-->
-          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32" @click="deleteall">-->
-          <!--<span @click="deleteall">删除智能设备</span>-->
+          <!--<img src="../assets/icons/shanchu_content.png" height="32" width="32"/>-->
+          <!--<span >删除智能设备</span>-->
         <!--</div>-->
       </div>
-      <div class="col-md-10 main-l">
-        <div class="col-md-12 bq">
-          <ul class="list-inline">
-            <li> <div class="hy-check hlyw-fg-pandect-l">
-              <input type="checkbox" v-model="selectAll" @change="checkAll(selectAll)"/>
-              <label class="abs-cell"></label>
-            </div></li>
-            <li>序号</li>
-            <li>设备类型</li>
-            <li>设备名称</li>
-            <li>设备型号</li>
-            <li>激活状态</li>
-            <li>设备状态</li>
-            <li>运营商</li>
-            <li>安装日期</li>
-            <li>公寓/房间号</li>
-            <li>操作</li>
-          </ul>
-        </div>
-        <div class="col-md-12" v-for="(item,index) in list">
-          <ul class="list-inline">
-            <li> <div class="hy-check hlyw-fg-pandect-l">
-              <input type="checkbox" v-model="item.checked" @change="checkOneBox(item)">
-              <label class="abs-cell"></label>
-            </div></li>
-            <li>{{index+1}}</li>
-            <li v-if="item.deviceType===0">智能门锁</li>
-            <li v-else-if="item.deviceType===1">智能水表</li>
-            <li>{{item.deviceName}}</li>
-            <li>/</li>
-            <li>激活</li>
-            <li v-if="item.deviceStatus===0">正常</li>
-            <li v-else style="color: red">报警</li>
-            <li v-if="item.buttPlatformType===0">中国电信</li>
-            <li v-else>中国移动</li>
-            <li>{{item.createTime}}</li>
-            <li>/</li>
-            <li><router-link :to="{ name:'facilitys',params:{ id:item.id}}">详情</router-link></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <page-index :currentIndex="1"  :count="pagesize" @indexclick="getIndex" v-show="pagesize>1"></page-index>
-      </div>
+      <!--<div class="col-md-10 main-l">-->
+        <!--<div class="col-md-12 bq">-->
+          <!--<ul class="list-inline">-->
+            <!--<li> <div class="hy-check hlyw-fg-pandect-l">-->
+              <!--<input type="checkbox" v-model="selectAll" @change="checkAll(selectAll)"/>-->
+              <!--<label class="abs-cell"></label>-->
+            <!--</div></li>-->
+            <!--<li>序号</li>-->
+            <!--<li>设备类型</li>-->
+            <!--<li>设备名称</li>-->
+            <!--<li>设备型号</li>-->
+            <!--<li>imei值</li>-->
+            <!--<li>deviceID</li>-->
+            <!--<li>设备状态</li>-->
+            <!--<li>激活状态</li>-->
+            <!--&lt;!&ndash;<li>公寓/房间号</li>&ndash;&gt;-->
+            <!--<li>操作</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="col-md-12" v-for="(item,index) in list">-->
+          <!--<ul class="list-inline">-->
+            <!--<li> <div class="hy-check hlyw-fg-pandect-l">-->
+              <!--<input type="checkbox" v-model="item.checked" @change="checkOneBox(item)"/>-->
+              <!--<label class="abs-cell"></label>-->
+            <!--</div></li>-->
+            <!--<li>{{index+1}}</li>-->
+            <!--<li>智能门锁</li>-->
+            <!--<li>{{item.deviceName}}</li>-->
+            <!--<li v-if="item.deviceType===0">智能门锁</li>-->
+            <!--<li v-else-if="item.deviceType===1">智能水表</li>-->
+            <!--<li>{{item.imei}}</li>-->
+            <!--<li>{{item.platformDeviceId}}</li>-->
+            <!--<li v-if="item.deviceStatus===0">正常</li>-->
+            <!--<li v-else style="color: red">报警</li>-->
+            <!--<li>已激活</li>-->
+            <!--&lt;!&ndash;<li>/</li>&ndash;&gt;-->
+            <!--<li><router-link :to="{ name:'facilitys',params:{ id:item.id}}">详情</router-link></li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="col-md-12">-->
+        <!--<page-index :currentIndex="1"  :count="pagesize" @indexclick="getIndex" v-show="pagesize>1"></page-index>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
 <script>
-  import  axios from 'axios'
+  import axios from 'axios'
   export default {
-    name: "smartdevice",
+    name: "yangan",
     data() {
       return {
         pageIndex:1,
@@ -83,23 +82,23 @@
         checked:'',
         selectAll:false,
         deviceName:'',
-        imei:''
-      };
+        imei:'',
+      }
     },
-    creatted:function () {
-      this.getData();
-    },
+    // created:function () {
+    //   this.getData();
+    // },
     mounted:function () {
       this.list.forEach(item=>{
         this.$set(item,'select',this.selectAll);
       });
     },
-    methods: {
-      // deleteall:function(){
-      //   axios.delete('http://192.168.10.24:9000/api/web/device'+'?ids='+this.checkAllId,{
+    methods:{
+      // deleteOne:function(){
+      //   console.log(del);
+      //   axios.delete('http://192.168.10.38:9000/api/web/device',del,{
       //     headers: {
       //       'Content-Type': 'application/json;charset=utf-8',
-      //       'Authorization':'Bearer'+' '+sessionStorage.getItem("Authorization")
       //     }
       //   })
       //     .then(res=>{
@@ -124,7 +123,7 @@
 // 单选 使用every遍历数组每一项，每一项返回true,则最终结果为true。当任何一项返回false时，停止遍历，返回false。不改变原数组
       checkOneBox (item) {
         // 判断是否全选
-        if (this.list.every(item=>item.checked===true)) {
+        if(this.list.every(item=>item.checked===true)) {
           this.selectAll = true
         } else {
           this.selectAll = false
@@ -153,14 +152,16 @@
             } else if (res.data.code===0) {
               this.list = res.data.data.list;
               this.pagesize=res.data.data.pageSum;
+            }else {
+              console.log(res.data.message)
             }
           })
           .catch(function (error) {
             console.log(error)
           })
       },
-      getIndex:function (i) {
-        this.pageIndex=i;
+      getIndex: function (i) {
+        this.pageIndex = i;
         this.getData();
       }
     },
@@ -198,7 +199,7 @@
     width: 100%;
     height: 32px;
     margin-top: 30px;
-    margin-left: 0;
+    margin-left: 50px;
     border-radius: 25px;
     border: solid 1px rgba(77, 77, 77, 0.68);
     background: #f2f2f2;
@@ -210,14 +211,11 @@
   .navigat .sousuo img{
     position: absolute;
     top: 30px;
-    right: 15px;
+    right: -35px;
     z-index: 9999;
   }
   .navigat .add{
     margin-top: 30px;
-  }
-  .navigat .add a{
-    /*text-decoration: none;*/
   }
   .navigat .add span{
     margin-left: 12px;
@@ -269,6 +267,12 @@
     width: 7.3%;
     color: #91a7ff;
     text-decoration: none;
+  }
+  .main-l li:nth-child(7){
+    width: 15%;
+  }
+  .main-l li:nth-child(6){
+    width: 11%;
   }
   .main-l .bq li{
     font-family: "Microsoft YaHei";

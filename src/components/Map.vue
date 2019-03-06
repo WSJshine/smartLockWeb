@@ -86,7 +86,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .amap-wrapper{
-    width: 700px;
+    width: 105%;
     height: 320px;
     margin-left: -15px;
     box-sizing: border-box;

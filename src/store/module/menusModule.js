@@ -13,9 +13,9 @@ let menus = [
       { id: 22, level: 2, name: '产品管理', type: "link", url: "/product" },
       { id: 23, level: 2, name: '设备报警', type: "link", url: "/alarm" },
       { id: 24, level: 2, name: '智能门锁', type: "link", url: "/lock" },
-      { id: 25, level: 2, name: '智能电表', type: "link", url: "" },
-      { id: 26, level: 2, name: '智能水表', type: "link", url: "" },
-      { id: 27, level: 2, name: '智能烟感', type: "link", url: "" },
+      { id: 25, level: 2, name: '智能电表', type: "link", url: "/dianbiao" },
+      { id: 26, level: 2, name: '智能水表', type: "link", url: "/shuibiao" },
+      { id: 27, level: 2, name: '智能烟感', type: "link", url: "/yangan" },
     ]
   },
   { id: 3, level: 1, name: '消息管理', type: "link", url: "/information",icon:"information" },

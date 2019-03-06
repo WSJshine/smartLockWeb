@@ -55,6 +55,7 @@
     text-align: center;
     height: 80px;
     font-size: 18px;
+    text-decoration: none;
     /*color: #ffffff;*/
   }
   .button {
@@ -99,6 +100,7 @@
   }
   .dianji{
     background: #ffffff;
+    text-decoration: none;
   }
   .heading-children {
     padding-left: 14px;

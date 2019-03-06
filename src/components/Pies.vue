@@ -1,5 +1,5 @@
 <template>
-  <div id="myCharts" :style="{width: '330px', height: '300px'}"></div>
+  <div id="myCharts" :style="{width: '100%', height: '300px'}"></div>
 </template>
 
 <script>
